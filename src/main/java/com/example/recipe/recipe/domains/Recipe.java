@@ -1,4 +1,4 @@
-package com.example.recipe.recipe.model;
+package com.example.recipe.recipe.domains;
 
 import com.example.recipe.recipe.enums.Dificulty;
 import lombok.Data;

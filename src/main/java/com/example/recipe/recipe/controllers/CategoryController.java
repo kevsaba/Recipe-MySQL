@@ -1,8 +1,7 @@
-package com.example.recipe.recipe.controller;
+package com.example.recipe.recipe.controllers;
 
-import com.example.recipe.recipe.model.Category;
-import com.example.recipe.recipe.repository.CategoryRepository;
-import com.example.recipe.recipe.repository.RecipeRepository;
+import com.example.recipe.recipe.domains.Category;
+import com.example.recipe.recipe.repositories.CategoryRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

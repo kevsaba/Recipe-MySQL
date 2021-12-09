@@ -1,7 +1,7 @@
 package com.example.recipe.recipe.services.impl;
 
-import com.example.recipe.recipe.model.Recipe;
-import com.example.recipe.recipe.repository.RecipeRepository;
+import com.example.recipe.recipe.domains.Recipe;
+import com.example.recipe.recipe.repositories.RecipeRepository;
 import com.example.recipe.recipe.services.RecipeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -25,5 +25,15 @@ public class RecipeServiceImpl implements RecipeService {
         final var recipes = new HashSet<Recipe>();
         recipeRepository.findAll().iterator().forEachRemaining(recipes::add);
         return recipes;
+    }
+
+    @Override
+    public Recipe findById(long id) {
+        log.debug("Im in the service getting the recipes find by id");
+        final var ret = recipeRepository.findById(id);
+        if (ret.isEmpty()){
+            throw new RuntimeException("Recipe not found");
+        }
+        return ret.get();
     }
 }

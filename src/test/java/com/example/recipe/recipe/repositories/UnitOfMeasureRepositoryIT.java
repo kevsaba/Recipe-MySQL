@@ -1,11 +1,10 @@
-package com.example.recipe.recipe.repository;
+package com.example.recipe.recipe.repositories;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -23,7 +22,7 @@ class UnitOfMeasureRepositoryIT {
     }
 
     @Test
-    //@DirtiesContext
+    // @DirtiesContext
     void findByUom() {
         final var uom = unitOfMeasureRepository.findByUom("Teaspoon");
         assertTrue(uom.isPresent());

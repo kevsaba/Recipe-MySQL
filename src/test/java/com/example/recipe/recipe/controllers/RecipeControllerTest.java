@@ -1,6 +1,6 @@
-package com.example.recipe.recipe.controller;
+package com.example.recipe.recipe.controllers;
 
-import com.example.recipe.recipe.model.Recipe;
+import com.example.recipe.recipe.domains.Recipe;
 import com.example.recipe.recipe.services.RecipeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -61,5 +61,20 @@ class RecipeControllerTest {
         verify(model, times(1)).addAttribute(eq("recipes"), argumentCaptor.capture());
         Set<Recipe> setInController = argumentCaptor.getValue();
         assertEquals(2, setInController.size());
+    }
+
+    @Test
+    void showById() throws Exception {
+        //given
+        var recipe = new Recipe();
+        recipe.setId(1L);
+        when(recipeService.findById(anyLong())).thenReturn(recipe);
+        //when
+        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(recipeController).build();
+        mockMvc.perform(MockMvcRequestBuilders.get("/recipe/show/1"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("recipe/show"))
+                .andExpect(MockMvcResultMatchers.model().attributeExists("recipe"));
+
     }
 }

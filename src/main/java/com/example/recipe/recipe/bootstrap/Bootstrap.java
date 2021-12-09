@@ -1,12 +1,12 @@
-package com.example.recipe.recipe;
+package com.example.recipe.recipe.bootstrap;
 
 import com.example.recipe.recipe.enums.Dificulty;
-import com.example.recipe.recipe.model.Ingredient;
-import com.example.recipe.recipe.model.Notes;
-import com.example.recipe.recipe.model.Recipe;
-import com.example.recipe.recipe.repository.CategoryRepository;
-import com.example.recipe.recipe.repository.RecipeRepository;
-import com.example.recipe.recipe.repository.UnitOfMeasureRepository;
+import com.example.recipe.recipe.domains.Ingredient;
+import com.example.recipe.recipe.domains.Notes;
+import com.example.recipe.recipe.domains.Recipe;
+import com.example.recipe.recipe.repositories.CategoryRepository;
+import com.example.recipe.recipe.repositories.RecipeRepository;
+import com.example.recipe.recipe.repositories.UnitOfMeasureRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -80,6 +80,12 @@ public class Bootstrap implements ApplicationListener<ContextRefreshedEvent> {
             throw new RuntimeException("Category doesn't exist");
         }
 
+        final var mexican = categoryRepository.findByDescription("Mexican");
+        final var categoryMexican = mexican.get();
+        if (isNull(categoryMexican)) {
+            throw new RuntimeException("Category doesn't exist");
+        }
+
         final var guacamoleRecipe = new Recipe();
         guacamoleRecipe.setDescription("Perfect Guacamole");
         guacamoleRecipe.setCookTime(0);
@@ -116,6 +122,7 @@ public class Bootstrap implements ApplicationListener<ContextRefreshedEvent> {
         guacamoleRecipe.addIngredient(new Ingredient("freshly ground black pepper", new BigDecimal(1), uomPinch));
 
         guacamoleRecipe.getCategories().add(categoryAmerican);
+        guacamoleRecipe.getCategories().add(categoryMexican);
         recipes.add(guacamoleRecipe);
         return recipes;
     }

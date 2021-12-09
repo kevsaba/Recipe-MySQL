@@ -1,4 +1,4 @@
-package com.example.recipe.recipe.model;
+package com.example.recipe.recipe.domains;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

@@ -1,6 +1,6 @@
-package com.example.recipe.recipe.repository;
+package com.example.recipe.recipe.repositories;
 
-import com.example.recipe.recipe.model.Category;
+import com.example.recipe.recipe.domains.Category;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;
