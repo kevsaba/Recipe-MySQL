@@ -9,6 +9,7 @@ import com.example.recipe.recipe.services.RecipeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -45,8 +46,10 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
+    @Transactional
     public RecipeCommand saveRecipeCommand(RecipeCommand recipe) {
-
-        return null;
+        final var saved = recipeRepository.save(recipeCommandToRecipe.convert(recipe));
+        log.debug("recipe comand converted into recipe and saved");
+        return recipeToRecipeCommand.convert(saved);
     }
 }
