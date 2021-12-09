@@ -7,6 +7,8 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+import static java.util.Objects.isNull;
+
 @Data
 @Entity
 public class Recipe {
@@ -38,8 +40,10 @@ public class Recipe {
     private Set<Category> categories = new HashSet<>();
 
     public void setNotes(Notes notes) {
-        this.notes = notes;
-        this.notes.setRecipe(this);
+        if (!isNull(notes)) {
+            this.notes = notes;
+            this.notes.setRecipe(this);
+        }
     }
 
     public void addIngredient(Ingredient ingredient) {

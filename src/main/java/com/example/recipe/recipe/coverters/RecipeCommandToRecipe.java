@@ -7,6 +7,8 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 
+import java.util.stream.Collectors;
+
 /**
  * Created by jt on 6/21/17.
  */
@@ -45,8 +47,9 @@ public class RecipeCommandToRecipe implements Converter<RecipeCommand, Recipe> {
         recipe.setNotes(notesConverter.convert(source.getNotes()));
 
         if (source.getCategories() != null && source.getCategories().size() > 0){
-            source.getCategories()
-                    .forEach( category -> recipe.getCategories().add(categoryConveter.convert(category)));
+//            source.getCategories()
+//                    .forEach( category -> recipe.getCategories().add(categoryConveter.convert(category)));
+            recipe.getCategories().addAll(source.getCategories().stream().map(categoryConveter::convert).collect(Collectors.toSet()));
         }
 
         if (source.getIngredients() != null && source.getIngredients().size() > 0){
