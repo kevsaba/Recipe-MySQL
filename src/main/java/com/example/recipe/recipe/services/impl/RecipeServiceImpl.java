@@ -1,5 +1,8 @@
 package com.example.recipe.recipe.services.impl;
 
+import com.example.recipe.recipe.commands.RecipeCommand;
+import com.example.recipe.recipe.coverters.RecipeCommandToRecipe;
+import com.example.recipe.recipe.coverters.RecipeToRecipeCommand;
 import com.example.recipe.recipe.domains.Recipe;
 import com.example.recipe.recipe.repositories.RecipeRepository;
 import com.example.recipe.recipe.services.RecipeService;
@@ -14,9 +17,13 @@ import java.util.Set;
 public class RecipeServiceImpl implements RecipeService {
 
     private final RecipeRepository recipeRepository;
+    private final RecipeCommandToRecipe recipeCommandToRecipe;
+    private final RecipeToRecipeCommand recipeToRecipeCommand;
 
-    public RecipeServiceImpl(RecipeRepository recipeRepository) {
+    public RecipeServiceImpl(RecipeRepository recipeRepository, RecipeCommandToRecipe recipeCommandToRecipe, RecipeToRecipeCommand recipeToRecipeCommand) {
         this.recipeRepository = recipeRepository;
+        this.recipeCommandToRecipe = recipeCommandToRecipe;
+        this.recipeToRecipeCommand = recipeToRecipeCommand;
     }
 
     @Override
@@ -35,5 +42,11 @@ public class RecipeServiceImpl implements RecipeService {
             throw new RuntimeException("Recipe not found");
         }
         return ret.get();
+    }
+
+    @Override
+    public RecipeCommand saveRecipeCommand(RecipeCommand recipe) {
+
+        return null;
     }
 }
