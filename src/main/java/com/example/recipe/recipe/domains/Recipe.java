@@ -47,8 +47,9 @@ public class Recipe {
     }
 
     public void addIngredient(Ingredient ingredient) {
-        ingredient.setRecipe(this);
-        this.ingredients.add(ingredient);
+        if (!isNull(ingredient)) {
+            ingredient.setRecipe(this);
+            this.ingredients.add(ingredient);
+        }
     }
-
 }

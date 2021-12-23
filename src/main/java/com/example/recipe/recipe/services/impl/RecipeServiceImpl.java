@@ -39,7 +39,7 @@ public class RecipeServiceImpl implements RecipeService {
     public Recipe findById(long id) {
         log.debug("Im in the service getting the recipes find by id");
         final var ret = recipeRepository.findById(id);
-        if (ret.isEmpty()){
+        if (ret.isEmpty()) {
             throw new RuntimeException("Recipe not found");
         }
         return ret.get();
@@ -51,5 +51,18 @@ public class RecipeServiceImpl implements RecipeService {
         final var saved = recipeRepository.save(recipeCommandToRecipe.convert(recipe));
         log.debug("recipe comand converted into recipe and saved");
         return recipeToRecipeCommand.convert(saved);
+    }
+
+    @Override
+    @Transactional
+    public RecipeCommand findCommandById(Long id) {
+        log.debug("finding by id and converting to command");
+        return recipeToRecipeCommand.convert(findById(id));
+    }
+
+    @Override
+    public void deleteById(long id) {
+        log.debug("deleting recipe with id" + id);
+        recipeRepository.deleteById(id);
     }
 }

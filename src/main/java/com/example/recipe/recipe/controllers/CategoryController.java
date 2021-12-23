@@ -5,7 +5,7 @@ import com.example.recipe.recipe.repositories.CategoryRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.Optional;
 
@@ -19,7 +19,7 @@ public class CategoryController {
         this.categoryRepository = categoryRepository;
     }
 
-    @RequestMapping({"/", "", "/category"})
+    @GetMapping({"/", "", "/category"})
     public String getMyRecipes(Model model) {
         log.debug("getting categories in controller");
         Optional<Category> american = categoryRepository.findByDescription("American");
