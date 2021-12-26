@@ -1,6 +1,7 @@
 package com.example.recipe.recipe.controllers;
 
 import com.example.recipe.recipe.commands.IngredientCommand;
+import com.example.recipe.recipe.commands.RecipeCommand;
 import com.example.recipe.recipe.services.IngredientService;
 import com.example.recipe.recipe.services.RecipeService;
 import com.example.recipe.recipe.services.UomService;
@@ -16,6 +17,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.Model;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -46,7 +48,7 @@ class IngredientsControllerTest {
 
     @Test
     void showById() throws Exception {
-        //when(ingredientService.findIngredientByIdAndRecipeId(anyLong(),anyLong())).thenReturn(new IngredientCommand());
+
         mockMvc.perform(MockMvcRequestBuilders.get("/recipe/1/ingredient/1/show"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("recipe/ingredient/show"));
@@ -63,6 +65,9 @@ class IngredientsControllerTest {
 
     @Test
     void getNewForm() throws Exception {
+        RecipeCommand recipeCommand = new RecipeCommand();
+        recipeCommand.setId(1L);
+        when(recipeService.findCommandById(anyLong())).thenReturn(recipeCommand);
         mockMvc.perform(MockMvcRequestBuilders.get("/recipe/1/ingredient/new"))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.model().attributeExists("uomList"))
