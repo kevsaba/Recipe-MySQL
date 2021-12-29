@@ -1,6 +1,6 @@
 package com.example.recipe.recipe.bootstrap;
 
-import com.example.recipe.recipe.enums.Dificulty;
+import com.example.recipe.recipe.enums.Difficulty;
 import com.example.recipe.recipe.domains.Ingredient;
 import com.example.recipe.recipe.domains.Notes;
 import com.example.recipe.recipe.domains.Recipe;
@@ -90,7 +90,7 @@ public class Bootstrap implements ApplicationListener<ContextRefreshedEvent> {
         guacamoleRecipe.setDescription("Perfect Guacamole");
         guacamoleRecipe.setCookTime(0);
         guacamoleRecipe.setPrepTime(10);
-        guacamoleRecipe.setDificulty(Dificulty.EASY);
+        guacamoleRecipe.setDifficulty(Difficulty.EASY);
         guacamoleRecipe.setDirections("1. Cut the avocado:\n" +
                 "Cut the avocados in half. Remove the pit. Score the inside of the avocado with a blunt knife and scoop out the flesh with a spoon. (See How to Cut and Peel an Avocado.) Place in a bowl.," +
                 "2. Mash the avocado flesh:\n" +

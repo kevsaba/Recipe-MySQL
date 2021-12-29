@@ -6,7 +6,7 @@ import com.example.recipe.recipe.commands.NotesCommand;
 import com.example.recipe.recipe.commands.RecipeCommand;
 import com.example.recipe.recipe.coverters.*;
 import com.example.recipe.recipe.domains.Recipe;
-import com.example.recipe.recipe.enums.Dificulty;
+import com.example.recipe.recipe.enums.Difficulty;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,7 +18,7 @@ public class RecipeCommandToRecipeTest {
     public static final Integer PREP_TIME = Integer.valueOf("7");
     public static final String DESCRIPTION = "My Recipe";
     public static final String DIRECTIONS = "Directions";
-    public static final Dificulty DIFFICULTY = Dificulty.EASY;
+    public static final Difficulty DIFFICULTY = Difficulty.EASY;
     public static final Integer SERVINGS = Integer.valueOf("3");
     public static final String SOURCE = "Source";
     public static final String URL = "Some URL";
@@ -56,7 +56,7 @@ public class RecipeCommandToRecipeTest {
         recipeCommand.setCookTime(COOK_TIME);
         recipeCommand.setPrepTime(PREP_TIME);
         recipeCommand.setDescription(DESCRIPTION);
-        recipeCommand.setDificulty(DIFFICULTY);
+        recipeCommand.setDifficulty(DIFFICULTY);
         recipeCommand.setDirections(DIRECTIONS);
         recipeCommand.setServings(SERVINGS);
         recipeCommand.setSource(SOURCE);
@@ -93,7 +93,7 @@ public class RecipeCommandToRecipeTest {
         assertEquals(COOK_TIME, recipe.getCookTime());
         assertEquals(PREP_TIME, recipe.getPrepTime());
         assertEquals(DESCRIPTION, recipe.getDescription());
-        assertEquals(DIFFICULTY, recipe.getDificulty());
+        assertEquals(DIFFICULTY, recipe.getDifficulty());
         assertEquals(DIRECTIONS, recipe.getDirections());
         assertEquals(SERVINGS, recipe.getServings());
         assertEquals(SOURCE, recipe.getSource());

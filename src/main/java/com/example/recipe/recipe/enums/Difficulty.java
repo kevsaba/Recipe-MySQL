@@ -1,5 +1,5 @@
 package com.example.recipe.recipe.enums;
 
-public enum Dificulty {
+public enum Difficulty {
     HARD,MEDIUM,EASY
 }

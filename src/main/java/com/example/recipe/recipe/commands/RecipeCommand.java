@@ -1,6 +1,6 @@
 package com.example.recipe.recipe.commands;
 
-import com.example.recipe.recipe.enums.Dificulty;
+import com.example.recipe.recipe.enums.Difficulty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -39,7 +39,7 @@ public class RecipeCommand {
     private String directions;
     private Set<IngredientCommand> ingredients = new HashSet<>();
     private Byte[] image;
-    private Dificulty dificulty;
+    private Difficulty difficulty;
     private NotesCommand notes;
     private Set<CategoryCommand> categories = new HashSet<>();
 }
