@@ -8,8 +8,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.validation.Valid;
 
 @Slf4j
 @Controller
@@ -29,7 +32,7 @@ public class RecipeController {
     }
 
     @GetMapping({"/recipe/{id}/show"})
-    public String showById(@PathVariable Long id, Model model){
+    public String showById(@PathVariable Long id, Model model) {
         model.addAttribute("recipe", recipeService.findById(id));
         return "recipe/show";
     }
@@ -41,20 +44,24 @@ public class RecipeController {
     }
 
     @PostMapping("/recipe")
-    public String saveOrUpdate(@ModelAttribute RecipeCommand command) { //modelatribute annotation to tell spring to bind the form post parameters to the RecipeCommand object automatically by the naming conventions utilize on the form
+    public String saveOrUpdate(@Valid @ModelAttribute("recipe") RecipeCommand command, BindingResult result) { //modelatribute annotation to tell spring to bind the form post parameters to the RecipeCommand object automatically by the naming conventions utilize on the form
+        if (result.hasErrors()) {
+            result.getAllErrors().forEach(e -> log.error(e.toString()));
+            return "recipe/recipeform";
+        }
         RecipeCommand savedCommand = recipeService.saveRecipeCommand(command);
         return "redirect:/recipe/" + savedCommand.getId() + "/show";
     }
 
     @GetMapping("/recipe/{id}/update")
-    public String updateRecipe(@PathVariable String id, Model model) {
-        model.addAttribute("recipe", recipeService.findCommandById(Long.parseLong(id)));
+    public String updateRecipe(@PathVariable Long id, Model model) {
+        model.addAttribute("recipe", recipeService.findCommandById(id));
         return "recipe/recipeform";
     }
 
     @GetMapping("/recipe/{id}/delete")
-    public String deleteRecipe(@PathVariable String id) {
-        recipeService.deleteById(Long.parseLong(id));
+    public String deleteRecipe(@PathVariable Long id) {
+        recipeService.deleteById(id);
         return "redirect:/recipes";
     }
 
@@ -64,17 +71,7 @@ public class RecipeController {
         log.error("Handling not found exception");
         log.error(ex.getMessage());
         ModelAndView view = new ModelAndView("404error");
-        view.addObject("exception",ex);
-        return view;
-    }
-
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(NumberFormatException.class)
-    public ModelAndView handleBadRequest(Exception ex) {
-        log.error("Handling bad request exception");
-        log.error(ex.getMessage());
-        ModelAndView view = new ModelAndView("400error");
-        view.addObject("exception",ex);
+        view.addObject("exception", ex);
         return view;
     }
 }

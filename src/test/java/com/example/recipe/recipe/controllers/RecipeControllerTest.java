@@ -37,13 +37,13 @@ class RecipeControllerTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
         recipeController = new RecipeController(recipeService);
-        mockMvc = MockMvcBuilders.standaloneSetup(recipeController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(recipeController).setControllerAdvice(ControllerExceptionHandler.class).build();
     }
 
     //this is to test controllers without needing to bring the spring context which is heavy
     @Test
     void testMockMvc() throws Exception {
-        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(recipeController).build();
+        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(recipeController).setControllerAdvice(ControllerExceptionHandler.class).build();
         mockMvc.perform(MockMvcRequestBuilders.get("/")).andExpect(status().isOk()).andExpect(view().name("index"));
     }
 
@@ -102,9 +102,25 @@ class RecipeControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.post("/recipe")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .param("id","")
-                        .param("description","setting up the description in the test"))
+                        .param("description","setting up the description in the test")
+                        .param("directions","setting up the direction in the test"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/recipe/2/show"));
+    }
+
+    @Test
+    void saveOrUpdateHasErrors() throws Exception {
+        //given
+        var recipe = new RecipeCommand();
+        recipe.setId(2L);
+        when(recipeService.saveRecipeCommand(any())).thenReturn(recipe);
+        //when
+        mockMvc.perform(MockMvcRequestBuilders.post("/recipe")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .param("id","")
+                        .param("description","setting up the description in the test"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("recipe/recipeform"));
     }
 
     @Test
