@@ -2,11 +2,14 @@ package com.example.recipe.recipe.controllers;
 
 import com.example.recipe.recipe.commands.RecipeCommand;
 import com.example.recipe.recipe.domains.Recipe;
+import com.example.recipe.recipe.exceptions.NotFoundException;
 import com.example.recipe.recipe.services.RecipeService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 @Slf4j
 @Controller
@@ -26,8 +29,8 @@ public class RecipeController {
     }
 
     @GetMapping({"/recipe/{id}/show"})
-    public String showById(@PathVariable String id, Model model) {
-        model.addAttribute("recipe", recipeService.findById(Long.parseLong(id)));
+    public String showById(@PathVariable Long id, Model model){
+        model.addAttribute("recipe", recipeService.findById(id));
         return "recipe/show";
     }
 
@@ -53,5 +56,25 @@ public class RecipeController {
     public String deleteRecipe(@PathVariable String id) {
         recipeService.deleteById(Long.parseLong(id));
         return "redirect:/recipes";
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(NotFoundException.class)
+    public ModelAndView handleNotFound(Exception ex) {
+        log.error("Handling not found exception");
+        log.error(ex.getMessage());
+        ModelAndView view = new ModelAndView("404error");
+        view.addObject("exception",ex);
+        return view;
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(NumberFormatException.class)
+    public ModelAndView handleBadRequest(Exception ex) {
+        log.error("Handling bad request exception");
+        log.error(ex.getMessage());
+        ModelAndView view = new ModelAndView("400error");
+        view.addObject("exception",ex);
+        return view;
     }
 }

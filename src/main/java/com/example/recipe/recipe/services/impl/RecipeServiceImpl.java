@@ -4,6 +4,7 @@ import com.example.recipe.recipe.commands.RecipeCommand;
 import com.example.recipe.recipe.coverters.RecipeCommandToRecipe;
 import com.example.recipe.recipe.coverters.RecipeToRecipeCommand;
 import com.example.recipe.recipe.domains.Recipe;
+import com.example.recipe.recipe.exceptions.NotFoundException;
 import com.example.recipe.recipe.repositories.RecipeRepository;
 import com.example.recipe.recipe.services.RecipeService;
 import lombok.extern.slf4j.Slf4j;
@@ -40,7 +41,7 @@ public class RecipeServiceImpl implements RecipeService {
         log.debug("Im in the service getting the recipes find by id");
         final var ret = recipeRepository.findById(id);
         if (ret.isEmpty()) {
-            throw new RuntimeException("Recipe not found");
+            throw new NotFoundException("Recipe not found. For Id value: " + id);
         }
         return ret.get();
     }

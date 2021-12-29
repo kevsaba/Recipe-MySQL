@@ -2,6 +2,7 @@ package com.example.recipe.recipe.controllers;
 
 import com.example.recipe.recipe.commands.RecipeCommand;
 import com.example.recipe.recipe.domains.Recipe;
+import com.example.recipe.recipe.exceptions.NotFoundException;
 import com.example.recipe.recipe.services.RecipeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -114,5 +115,21 @@ class RecipeControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/recipes"));
         verify(recipeService,times(1)).deleteById(anyLong());
+    }
+
+    @Test
+    void notFoundRecipeException() throws Exception {
+        when(recipeService.findById(anyLong())).thenThrow(NotFoundException.class);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/recipe/1/show"))
+                .andExpect(status().isNotFound())
+                .andExpect(view().name("404error"));
+    }
+
+    @Test
+    void BadRequestException() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/recipe/asd/show"))
+                .andExpect(status().isBadRequest())
+                .andExpect(view().name("400error"));
     }
 }
