@@ -1,14 +1,13 @@
 package com.example.recipe.recipe.bootstrap;
 
+import com.example.recipe.recipe.domains.*;
 import com.example.recipe.recipe.enums.Difficulty;
-import com.example.recipe.recipe.domains.Ingredient;
-import com.example.recipe.recipe.domains.Notes;
-import com.example.recipe.recipe.domains.Recipe;
 import com.example.recipe.recipe.repositories.CategoryRepository;
 import com.example.recipe.recipe.repositories.RecipeRepository;
 import com.example.recipe.recipe.repositories.UnitOfMeasureRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
@@ -21,11 +20,12 @@ import static java.util.Objects.isNull;
 
 @Slf4j
 @Component
+@Profile("default")
 public class Bootstrap implements ApplicationListener<ContextRefreshedEvent> {
 
-    private RecipeRepository recipeRepository;
-    private CategoryRepository categoryRepository;
-    private UnitOfMeasureRepository unitOfMeasureRepository;
+    private final RecipeRepository recipeRepository;
+    private final CategoryRepository categoryRepository;
+    private final UnitOfMeasureRepository unitOfMeasureRepository;
 
     public Bootstrap(RecipeRepository recipeRepository, CategoryRepository categoryRepository, UnitOfMeasureRepository unitOfMeasureRepository) {
         this.recipeRepository = recipeRepository;
@@ -44,44 +44,68 @@ public class Bootstrap implements ApplicationListener<ContextRefreshedEvent> {
     private List<Recipe> getRecipes() {
         final List<Recipe> recipes = new ArrayList<>();
         final var each = unitOfMeasureRepository.findByUom("Each");
-        final var uomEach = each.get();
+        UnitOfMeasure uomEach = null;
+        if (each.isPresent()){
+            uomEach = each.get();
+        }
         if (isNull(uomEach)) {
             throw new RuntimeException("UOM doesn't exist");
         }
         final var tablespoon = unitOfMeasureRepository.findByUom("Tablespoon");
-        final var uomTablespoon = tablespoon.get();
+        UnitOfMeasure uomTablespoon = null;
+        if (tablespoon.isPresent()){
+            uomTablespoon = tablespoon.get();
+        }
         if (isNull(uomTablespoon)) {
             throw new RuntimeException("UOM doesn't exist");
         }
         final var teaspoon = unitOfMeasureRepository.findByUom("Teaspoon");
-        final var uomTeaspoon = teaspoon.get();
+        UnitOfMeasure uomTeaspoon = null;
+        if (teaspoon.isPresent()){
+            uomTeaspoon = teaspoon.get();
+        }
         if (isNull(uomTeaspoon)) {
             throw new RuntimeException("UOM doesn't exist");
         }
         final var dash = unitOfMeasureRepository.findByUom("Dash");
-        final var uomDash = dash.get();
+        UnitOfMeasure uomDash = null;
+        if (dash.isPresent()){
+            uomDash = dash.get();
+        }
         if (isNull(uomDash)) {
             throw new RuntimeException("UOM doesn't exist");
         }
         final var pinch = unitOfMeasureRepository.findByUom("Pinch");
-        final var uomPinch = pinch.get();
+        UnitOfMeasure uomPinch = null;
+        if (pinch.isPresent()){
+            uomPinch = pinch.get();
+        }
         if (isNull(uomPinch)) {
             throw new RuntimeException("UOM doesn't exist");
         }
         final var cup = unitOfMeasureRepository.findByUom("Cup");
-        final var uomCup = cup.get();
+        UnitOfMeasure uomCup = null;
+        if (cup.isPresent()){
+            uomCup = cup.get();
+        }
         if (isNull(uomCup)) {
             throw new RuntimeException("UOM doesn't exist");
         }
 
         final var american = categoryRepository.findByDescription("American");
-        final var categoryAmerican = american.get();
+        Category categoryAmerican = null;
+        if (american.isPresent()){
+            categoryAmerican = american.get();
+        }
         if (isNull(categoryAmerican)) {
             throw new RuntimeException("Category doesn't exist");
         }
 
         final var mexican = categoryRepository.findByDescription("Mexican");
-        final var categoryMexican = mexican.get();
+        Category categoryMexican = null;
+        if (mexican.isPresent()){
+            categoryMexican = mexican.get();
+        }
         if (isNull(categoryMexican)) {
             throw new RuntimeException("Category doesn't exist");
         }
